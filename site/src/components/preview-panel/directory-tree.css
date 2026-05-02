@@ -1,0 +1,112 @@
+.directory-tree {
+  background: var(--color-terminal-bg);
+  border: 1px solid oklch(28% 0.02 250);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.directory-tree__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-terminal-bg-elevated);
+  border-bottom: 1px solid oklch(28% 0.02 250);
+}
+
+.directory-tree__title {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  color: var(--color-terminal-text-dim);
+  text-transform: lowercase;
+  flex: 1;
+}
+
+.directory-tree__legend {
+  display: flex;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.directory-tree__legend-item {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: oklch(28% 0.02 250);
+}
+
+.directory-tree__pre {
+  margin: 0;
+  padding: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--color-terminal-text);
+  overflow-x: auto;
+  max-height: 32rem;
+  overflow-y: auto;
+}
+
+.directory-tree__branch {
+  color: oklch(40% 0.02 250);
+}
+
+.directory-tree__dir {
+  color: var(--color-terminal-flag);
+  font-weight: 600;
+}
+
+.directory-tree__file {
+  color: var(--color-terminal-text);
+}
+
+/* Per-tag highlight — matches the legend chip color */
+.directory-tree__tag--kit {
+  color: oklch(75% 0.16 25);
+  background: oklch(60% 0.18 25 / 0.18);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.directory-tree__tag--stack {
+  color: oklch(80% 0.15 145);
+  background: oklch(60% 0.18 145 / 0.18);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.directory-tree__tag--extra {
+  color: oklch(80% 0.14 280);
+  background: oklch(60% 0.18 280 / 0.18);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.directory-tree__tag--docker {
+  color: oklch(80% 0.14 220);
+  background: oklch(60% 0.18 220 / 0.18);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.directory-tree__tag--ci {
+  color: oklch(82% 0.14 80);
+  background: oklch(60% 0.18 80 / 0.18);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.directory-tree__tag--tests {
+  color: oklch(82% 0.14 165);
+  background: oklch(60% 0.18 165 / 0.18);
+  border-radius: 3px;
+  padding: 0 4px;
+}
+.directory-tree__tag--db {
+  color: oklch(80% 0.14 55);
+  background: oklch(60% 0.18 55 / 0.18);
+  border-radius: 3px;
+  padding: 0 4px;
+}

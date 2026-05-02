@@ -1,0 +1,72 @@
+/**
+ * Design tokens — palette, typography, spacing, motion.
+ * Every component should pull from these instead of hardcoding.
+ */
+
+:root {
+  /* Palette — warm cream surface + Laravel red as semantic accent */
+  --color-bg: oklch(97% 0.012 70);
+  --color-surface: oklch(99% 0.005 70);
+  --color-surface-raised: oklch(100% 0 0);
+  --color-border: oklch(88% 0.012 70);
+  --color-border-strong: oklch(80% 0.015 70);
+
+  --color-text: oklch(22% 0.015 60);
+  --color-text-muted: oklch(48% 0.015 60);
+  --color-text-faint: oklch(65% 0.015 60);
+
+  --color-accent: oklch(62% 0.21 28);          /* Laravel red */
+  --color-accent-hover: oklch(56% 0.21 28);
+  --color-accent-soft: oklch(95% 0.04 28);
+
+  /* Terminal panel — single source of dark contrast on the page */
+  --color-terminal-bg: oklch(18% 0.015 250);
+  --color-terminal-bg-elevated: oklch(22% 0.018 250);
+  --color-terminal-text: oklch(90% 0.012 80);
+  --color-terminal-text-dim: oklch(65% 0.018 250);
+  --color-terminal-flag: oklch(78% 0.14 200);
+  --color-terminal-value: oklch(82% 0.14 130);
+  --color-terminal-comment: oklch(58% 0.018 250);
+  --color-terminal-prompt: oklch(78% 0.18 145);
+
+  /* Typography */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-display:
+    'Fraunces', Georgia, 'Times New Roman', serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
+  --text-display: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-soft: 0 1px 2px oklch(20% 0.02 60 / 0.04), 0 4px 12px oklch(20% 0.02 60 / 0.06);
+  --shadow-raised: 0 2px 4px oklch(20% 0.02 60 / 0.06), 0 12px 32px oklch(20% 0.02 60 / 0.08);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-normal: 220ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}

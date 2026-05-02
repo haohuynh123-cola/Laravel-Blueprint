@@ -1,0 +1,35 @@
+.project-name-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.project-name-field__label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.project-name-field__input {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) var(--ease-out-expo),
+    box-shadow var(--duration-fast) var(--ease-out-expo);
+}
+
+.project-name-field__input:hover {
+  border-color: var(--color-border-strong);
+}
+
+.project-name-field__input:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}

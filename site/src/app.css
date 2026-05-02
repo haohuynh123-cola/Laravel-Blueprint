@@ -1,0 +1,109 @@
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-5) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.app__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--color-accent);
+  color: white;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.app__brand-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-lg);
+  letter-spacing: -0.01em;
+}
+
+.app__brand-tag {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.app__nav a {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+.app__nav a:hover {
+  color: var(--color-text);
+}
+
+.app__hero {
+  max-width: 56ch;
+}
+
+.app__hero-title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-display);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.app__hero-title em {
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+.app__hero-lede {
+  margin: 0;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.app__columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1100px) {
+  .app__columns {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: start;
+  }
+}
+
+.app__footer {
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.app__footer p {
+  margin: 0;
+}

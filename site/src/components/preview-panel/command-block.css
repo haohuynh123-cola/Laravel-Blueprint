@@ -1,0 +1,94 @@
+.command-block {
+  background: var(--color-terminal-bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-raised);
+  border: 1px solid oklch(28% 0.02 250);
+}
+
+.command-block__chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-terminal-bg-elevated);
+  border-bottom: 1px solid oklch(28% 0.02 250);
+}
+
+.command-block__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: oklch(40% 0.02 250);
+}
+
+.command-block__dot[data-color='red'] {
+  background: oklch(60% 0.18 25);
+}
+.command-block__dot[data-color='amber'] {
+  background: oklch(74% 0.16 75);
+}
+.command-block__dot[data-color='green'] {
+  background: oklch(70% 0.17 145);
+}
+
+.command-block__title {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-terminal-text-dim);
+  letter-spacing: 0.04em;
+}
+
+.command-block__copy {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-terminal-text-dim);
+  background: oklch(28% 0.02 250);
+  transition: background var(--duration-fast) var(--ease-out-expo),
+    color var(--duration-fast) var(--ease-out-expo);
+}
+
+.command-block__copy:hover {
+  background: oklch(34% 0.02 250);
+  color: var(--color-terminal-text);
+}
+
+.command-block__pre {
+  margin: 0;
+  padding: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--color-terminal-text);
+  overflow-x: auto;
+}
+
+.command-block__line {
+  display: block;
+}
+
+.command-block__prompt {
+  color: var(--color-terminal-prompt);
+  user-select: none;
+}
+
+.command-block__token--cmd {
+  color: var(--color-terminal-text);
+  font-weight: 600;
+}
+.command-block__token--arg {
+  color: var(--color-terminal-text);
+}
+.command-block__token--flag {
+  color: var(--color-terminal-flag);
+}
+.command-block__token--value {
+  color: var(--color-terminal-value);
+}
+.command-block__token--continuation {
+  color: var(--color-terminal-comment);
+}
