@@ -1,0 +1,44 @@
+{
+    "name": "laravel-blueprint/laravel-blueprint",
+    "description": "Scaffold production-ready Laravel projects with your choice of starter kit, database, queue, and extras — like go-blueprint, but for Laravel.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "scaffold", "cli", "blueprint", "generator", "starter"],
+    "homepage": "https://github.com/laravel-blueprint/laravel-blueprint",
+    "require": {
+        "php": "^8.2",
+        "symfony/console": "^7.0",
+        "symfony/process": "^7.0",
+        "symfony/filesystem": "^7.0",
+        "laravel/prompts": "^0.3"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.0",
+        "laravel/pint": "^1.18",
+        "phpstan/phpstan": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelBlueprint\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelBlueprint\\Tests\\": "tests/"
+        }
+    },
+    "bin": ["bin/blueprint"],
+    "scripts": {
+        "test": "pest",
+        "lint": "pint",
+        "stan": "phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

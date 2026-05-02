@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// Resolve autoloader whether installed globally or run from a clone.
+$autoloadCandidates = [
+    __DIR__ . '/../vendor/autoload.php',                  // local clone
+    __DIR__ . '/../../../autoload.php',                   // composer global / dependency
+    getcwd() . '/vendor/autoload.php',                    // run from project
+];
+
+$loaded = false;
+foreach ($autoloadCandidates as $file) {
+    if (is_file($file)) {
+        require $file;
+        $loaded = true;
+        break;
+    }
+}
+
+if (! $loaded) {
+    fwrite(STDERR, "Could not find Composer autoloader. Run `composer install` first.\n");
+    exit(1);
+}
+
+use LaravelBlueprint\Application;
+
+exit((new Application())->run());
