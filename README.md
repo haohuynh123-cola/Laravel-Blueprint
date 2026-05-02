@@ -10,19 +10,38 @@ Inspired by [`go-blueprint`](https://go-blueprint.dev/), but for Laravel.
 
 ---
 
-## Quick start (2 commands)
+## Quick start — pick the install that fits you
+
+### `curl | bash` — no Composer needed, just PHP
+
+```bash
+curl -sSL https://raw.githubusercontent.com/haohuynh123-cola/Laravel-Blueprint/main/install.sh | bash
+blueprint new
+```
+
+Downloads the single-file phar from the latest GitHub Release and drops it into `/usr/local/bin/blueprint`. Override with `INSTALL_DIR=~/bin VERSION=v0.4.0 bash` if needed.
+
+### `npx` — no install at all
+
+```bash
+npx laravel-blueprint new my-app
+```
+
+Spawns the phar via Node — handy if you're already in a JS project. Requires PHP 8.2+ on your `PATH`.
+
+### Composer — the canonical PHP way
 
 ```bash
 composer global require haohuynh123-cola/laravel-blueprint
 blueprint new
 ```
 
-That's it. The wizard walks you through every choice, then scaffolds the project.
-
-> **PATH**: if `blueprint` says `command not found`, add Composer's global bin to your shell:
+> **PATH**: if `blueprint` says `command not found`, add Composer's global bin:
 > ```bash
 > echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
 > ```
+
+The wizard walks you through every choice, then scaffolds the project.
 
 ---
 
@@ -257,9 +276,10 @@ One we deliberately changed: `go-blueprint` keeps templates as Go string literal
 
 - ✅ **v0.0.1** — base install + database + git
 - ✅ **v0.2.0** — starter kit + extras + Docker + CI generators
-- ✅ **v0.3.0** — `blueprint add` for existing projects *(current)*
+- ✅ **v0.3.0** — `blueprint add` for existing projects
+- ✅ **v0.4.0** — Phar release + `curl | bash` install script + npm wrapper for `npx` *(current)*
 - ✅ **v0.5** — live configurator site
-- 🔜 **v0.4** — Phar release + `curl | bash` install script + npm wrapper for `npx`
+- 🔜 **v0.6** — Homebrew tap + Docker image (zero-PHP install)
 
 ---
 

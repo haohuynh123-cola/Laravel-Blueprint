@@ -1,0 +1,30 @@
+{
+    "$schema": "https://raw.githubusercontent.com/box-project/box/main/res/schema.json",
+    "main": "bin/blueprint",
+    "output": "blueprint.phar",
+    "alias": "blueprint.phar",
+    "banner": "Laravel Blueprint — scaffold a Laravel project. https://github.com/haohuynh123-cola/Laravel-Blueprint",
+    "directories": [
+        "src"
+    ],
+    "finder": [
+        {
+            "name": ["*.php", "*.stub"],
+            "in": "src"
+        },
+        {
+            "name": "*.php",
+            "exclude": ["tests", "test", "Tests", "Test"],
+            "in": "vendor"
+        }
+    ],
+    "compactors": [
+        "KevinGH\\Box\\Compactor\\Php",
+        "KevinGH\\Box\\Compactor\\Json"
+    ],
+    "compression": "GZ",
+    "chmod": "0755",
+    "git-version": "package_version",
+    "exclude-dev-files": true,
+    "exclude-composer-files": false
+}

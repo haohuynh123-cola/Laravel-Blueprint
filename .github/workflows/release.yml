@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag to release (e.g. v0.2.0)'
+        description: 'Tag to release (e.g. v0.4.0)'
         required: true
 
 permissions:
@@ -41,7 +41,29 @@ jobs:
             echo "value=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create GitHub Release
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+          ini-values: phar.readonly=Off
+          coverage: none
+
+      - name: Install runtime dependencies
+        run: composer install --no-dev --prefer-dist --no-interaction --no-progress
+
+      - name: Download box
+        run: |
+          curl -fsSL -o box.phar https://github.com/box-project/box/releases/latest/download/box.phar
+          chmod +x box.phar
+
+      - name: Build phar
+        run: php -d phar.readonly=Off box.phar compile --no-parallel
+
+      - name: Verify phar runs
+        run: php blueprint.phar --version
+
+      - name: Create GitHub Release with phar attached
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -54,4 +76,5 @@ jobs:
           gh release create "$tag" \
             --title "$tag" \
             --generate-notes \
-            $prerelease_flag
+            $prerelease_flag \
+            blueprint.phar

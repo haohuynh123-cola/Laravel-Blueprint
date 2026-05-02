@@ -1,0 +1,35 @@
+{
+  "name": "laravel-blueprint",
+  "version": "0.4.0",
+  "description": "Scaffold production-ready Laravel projects with one command — npm wrapper around the PHP CLI.",
+  "keywords": [
+    "laravel",
+    "scaffold",
+    "blueprint",
+    "cli",
+    "php"
+  ],
+  "homepage": "https://github.com/haohuynh123-cola/Laravel-Blueprint",
+  "bugs": "https://github.com/haohuynh123-cola/Laravel-Blueprint/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haohuynh123-cola/Laravel-Blueprint.git",
+    "directory": "npm"
+  },
+  "license": "MIT",
+  "bin": {
+    "blueprint": "bin/blueprint.js",
+    "laravel-blueprint": "bin/blueprint.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md"
+  ],
+  "scripts": {
+    "postinstall": "node lib/install.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
