@@ -83,6 +83,9 @@ A Laravel project that's already wired up the way you wanted — no manual `comp
 
 ## How it looks (interactive wizard)
 
+![Laravel Blueprint wizard demo](docs/demo.gif)
+
+
 ```
 ┌ Laravel Blueprint — scaffold a new Laravel project ─┐
 
