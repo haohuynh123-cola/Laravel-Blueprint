@@ -41,7 +41,7 @@
   letter-spacing: 0.04em;
 }
 
-.command-block__copy {
+.command-block__action {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   padding: var(--space-1) var(--space-3);
@@ -52,7 +52,11 @@
     color var(--duration-fast) var(--ease-out-expo);
 }
 
-.command-block__copy:hover {
+.command-block__action + .command-block__action {
+  margin-left: var(--space-2);
+}
+
+.command-block__action:hover {
   background: oklch(34% 0.02 250);
   color: var(--color-terminal-text);
 }

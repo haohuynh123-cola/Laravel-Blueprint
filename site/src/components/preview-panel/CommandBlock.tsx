@@ -6,18 +6,22 @@ interface CommandBlockProps {
   command: RenderedCommand;
 }
 
-export function CommandBlock({ command }: CommandBlockProps) {
-  const [copied, setCopied] = useState(false);
+type Toast = 'copied' | 'shared' | null;
 
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(command.plain);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1500);
-    } catch {
-      // Clipboard API blocked (e.g. insecure context) — fail quietly,
-      // the user can still triple-click and copy manually.
-    }
+export function CommandBlock({ command }: CommandBlockProps) {
+  const [toast, setToast] = useState<Toast>(null);
+
+  const flashToast = (kind: Exclude<Toast, null>) => {
+    setToast(kind);
+    window.setTimeout(() => setToast(null), 1500);
+  };
+
+  const copyCommand = async () => {
+    if (await writeClipboard(command.plain)) flashToast('copied');
+  };
+
+  const copyShareLink = async () => {
+    if (await writeClipboard(window.location.href)) flashToast('shared');
   };
 
   return (
@@ -27,8 +31,21 @@ export function CommandBlock({ command }: CommandBlockProps) {
         <span className="command-block__dot" data-color="amber" />
         <span className="command-block__dot" data-color="green" />
         <span className="command-block__title">terminal</span>
-        <button type="button" className="command-block__copy" onClick={copy}>
-          {copied ? 'copied' : 'copy'}
+        <button
+          type="button"
+          className="command-block__action"
+          onClick={copyShareLink}
+          aria-label="Copy link to this configuration"
+        >
+          {toast === 'shared' ? 'link copied' : 'share'}
+        </button>
+        <button
+          type="button"
+          className="command-block__action"
+          onClick={copyCommand}
+          aria-label="Copy command"
+        >
+          {toast === 'copied' ? 'copied' : 'copy'}
         </button>
       </div>
 
@@ -52,4 +69,19 @@ export function CommandBlock({ command }: CommandBlockProps) {
       </pre>
     </div>
   );
+}
+
+/**
+ * Returns true on success, false if the Clipboard API is unavailable
+ * (insecure context, denied permission, ancient browser). Caller decides
+ * whether to surface a toast.
+ */
+async function writeClipboard(text: string): Promise<boolean> {
+  if (!navigator.clipboard) return false;
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    return false;
+  }
 }

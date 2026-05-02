@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { OptionsPanel } from './components/options-panel/OptionsPanel';
 import { PreviewPanel } from './components/preview-panel/PreviewPanel';
-import { DEFAULT_CONFIG, type BlueprintConfig } from './lib/blueprint-options';
+import { useUrlState } from './hooks/useUrlState';
 import './app.css';
 
 export function App() {
-  const [config, setConfig] = useState<BlueprintConfig>(DEFAULT_CONFIG);
+  const [config, setConfig] = useUrlState();
 
   return (
     <div className="app">
