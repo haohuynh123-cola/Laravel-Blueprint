@@ -14,14 +14,13 @@ Output docs/demo.gif
 # in a README or social timeline. Bigger font, generous padding, high-contrast
 # theme.
 Set Theme "Catppuccin Mocha"
-Set FontFamily "JetBrains Mono"
+Set FontFamily "Menlo"
 Set FontSize 18
 Set Width 1280
 Set Height 820
 Set Padding 16
 Set Margin 0
 Set LineHeight 1.0
-Set LetterSpacing 0
 Set TypingSpeed 40ms
 Set Framerate 30
 Set PlaybackSpeed 1.0
