@@ -14,8 +14,12 @@ use LaravelBlueprint\Config\GitMode;
 use LaravelBlueprint\Config\StarterKit;
 use LaravelBlueprint\Config\TestRunner;
 use LaravelBlueprint\Generators\BaseInstaller;
+use LaravelBlueprint\Generators\CiGenerator;
 use LaravelBlueprint\Generators\DatabaseConfigurator;
+use LaravelBlueprint\Generators\DockerGenerator;
+use LaravelBlueprint\Generators\ExtrasGenerator;
 use LaravelBlueprint\Generators\GitInitializer;
+use LaravelBlueprint\Generators\StarterKitGenerator;
 use LaravelBlueprint\Support\ProcessRunner;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -28,7 +32,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\intro;
 use function Laravel\Prompts\multiselect;
-use function Laravel\Prompts\note;
 use function Laravel\Prompts\outro;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
@@ -173,9 +176,25 @@ final class NewCommand extends Command
         info('Configuring database…');
         (new DatabaseConfigurator())->generate($config);
 
-        // Starter kit / extras / docker / CI generators land in subsequent versions.
-        // Print what was skipped so the user knows the gap is intentional.
-        $this->printPendingGenerators($config);
+        if ($config->starterKit !== StarterKit::None) {
+            info("Installing starter kit ({$config->starterKit->value})…");
+            (new StarterKitGenerator($runner))->generate($config);
+        }
+
+        if ($config->extras !== []) {
+            info('Installing extras…');
+            (new ExtrasGenerator($runner))->generate($config);
+        }
+
+        if ($config->dockerMode !== DockerMode::None) {
+            info("Configuring Docker ({$config->dockerMode->value})…");
+            (new DockerGenerator($runner))->generate($config);
+        }
+
+        if ($config->ciPreset !== CiPreset::None) {
+            info("Adding CI ({$config->ciPreset->value})…");
+            (new CiGenerator())->generate($config);
+        }
 
         if ($config->gitMode !== GitMode::Skip) {
             info('Initializing git repository…');
@@ -283,27 +302,6 @@ final class NewCommand extends Command
         }
 
         return null;
-    }
-
-    private function printPendingGenerators(BlueprintConfig $config): void
-    {
-        $pending = [];
-        if ($config->starterKit !== StarterKit::None) {
-            $pending[] = "starter kit ({$config->starterKit->value})";
-        }
-        if ($config->extras !== []) {
-            $pending[] = 'extras: ' . implode(', ', array_map(fn(Extra $e) => $e->value, $config->extras));
-        }
-        if ($config->dockerMode !== DockerMode::None) {
-            $pending[] = "docker ({$config->dockerMode->value})";
-        }
-        if ($config->ciPreset !== CiPreset::None) {
-            $pending[] = "ci ({$config->ciPreset->value})";
-        }
-
-        if ($pending !== []) {
-            note('Recorded but not yet applied (coming in next release): ' . implode('; ', $pending));
-        }
     }
 
     private function printNextSteps(BlueprintConfig $config): void

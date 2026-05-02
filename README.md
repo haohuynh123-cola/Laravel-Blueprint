@@ -6,21 +6,18 @@ Inspired by [`go-blueprint`](https://go-blueprint.dev/), but for Laravel. One co
 
 ## Status
 
-**Pre-release (v0.0.1).** What works today:
+**v0.2.0** — every prompt now executes a real generator end-to-end:
 
 - Interactive wizard with `laravel/prompts` (and `--flag` alternatives for CI)
 - Base Laravel install via `composer create-project`
 - `.env` rewritten for your chosen database (MySQL, PostgreSQL, SQLite, MariaDB)
 - SQLite file created so `php artisan migrate` works out of the box
+- **Starter kits**: Breeze, Jetstream, Filament — each installed and configured for the chosen frontend stack
+- **Frontend stacks**: Blade, Livewire, Inertia+Vue, Inertia+React, API
+- **Extras**: Horizon, Telescope, Pulse, Octane, Scout, Sanctum, Pint, Larastan, Dusk, Sail
+- **Docker**: production Dockerfile + nginx + php.ini, or Sail dev, or both
+- **CI**: GitHub Actions workflow (tests + lint with Pint/PHPStan)
 - `git init` + initial commit (optional)
-
-What's planned (prompts already collect these — generators land next):
-
-- Starter kits: Breeze, Jetstream, Filament
-- Frontend stacks: Blade, Livewire, Inertia+Vue, Inertia+React, API
-- Extras: Horizon, Telescope, Pulse, Octane, Scout, Sanctum, Pint, Larastan, Dusk, Sail
-- Docker: Sail dev environment + production Dockerfile
-- CI: GitHub Actions preset (tests, Pint, Larastan)
 
 ## Install
 
@@ -89,10 +86,19 @@ src/
 ├── Config/                      # BlueprintConfig + enum types per choice
 ├── Generators/                  # One class per generator step
 │   ├── Generator.php            # interface
-│   ├── BaseInstaller.php        # composer create-project
+│   ├── BaseInstaller.php        # composer create-project laravel/laravel
 │   ├── DatabaseConfigurator.php # rewrites .env
+│   ├── StarterKitGenerator.php  # composer require + artisan {kit}:install
+│   ├── ExtrasGenerator.php      # map-driven: one entry per extra
+│   ├── DockerGenerator.php      # writes Dockerfile/nginx/php.ini, or Sail
+│   ├── CiGenerator.php          # writes .github/workflows/*.yml
 │   └── GitInitializer.php       # git init [+ commit]
-└── Support/ProcessRunner.php    # symfony/process wrapper with streaming output
+├── Support/
+│   ├── ProcessRunner.php        # symfony/process wrapper, streams output
+│   └── StubLoader.php           # {{ var }} substitution for stub files
+└── Templates/                   # Real .stub files — lintable, syntax-highlighted
+    ├── docker/                  # Dockerfile, nginx.conf, php.ini, .dockerignore
+    └── ci/                      # tests.yml, lint.yml
 ```
 
 Two design rules borrowed from `go-blueprint`:
@@ -104,11 +110,11 @@ One we deliberately *changed*: `go-blueprint` keeps templates as Go string liter
 
 ## Roadmap
 
-- v0.1 — starter-kit + Docker + CI generators
-- v0.2 — extras (Horizon / Telescope / Pulse / Octane / Sail / Pint / Larastan)
+- ✅ v0.0.1 — base install + database + git
+- ✅ v0.2.0 — starter kit + extras + Docker + CI generators (current)
 - v0.3 — `blueprint upgrade` for existing projects (apply a single layer to a brownfield repo)
-- v0.4 — Phar release + Homebrew tap + `curl | bash` install script
-- v0.5 — marketing site at laravel-blueprint.dev
+- v0.4 — Phar release + Homebrew tap + `curl | bash` install script + npm wrapper for `npx` UX
+- ✅ v0.5 — marketing site (live at https://haohuynh123-cola.github.io/Laravel-Blueprint/)
 
 ## Contributing
 

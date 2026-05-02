@@ -1,0 +1,59 @@
+# syntax=docker/dockerfile:1.7
+# Multi-stage production build for {{ project_name }}.
+# Stage 1: install vendor + node deps with full toolchain.
+# Stage 2: copy compiled artefacts into a slim runtime image.
+
+ARG PHP_VERSION=8.3
+
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-scripts \
+    --prefer-dist \
+    --optimize-autoloader
+
+FROM node:20-alpine AS assets
+WORKDIR /app
+COPY package*.json ./
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+COPY . .
+RUN npm run build || true
+
+FROM php:${PHP_VERSION}-fpm-alpine AS runtime
+
+RUN apk add --no-cache \
+        nginx \
+        supervisor \
+        bash \
+        icu-dev \
+        oniguruma-dev \
+        libzip-dev \
+        postgresql-dev \
+    && docker-php-ext-install \
+        bcmath \
+        intl \
+        opcache \
+        pcntl \
+        pdo_mysql \
+        pdo_pgsql \
+        zip
+
+WORKDIR /var/www/html
+
+COPY --chown=www-data:www-data . .
+COPY --from=vendor /app/vendor ./vendor
+COPY --from=assets /app/public ./public
+
+COPY docker/php.ini /usr/local/etc/php/conf.d/zz-app.ini
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+
+RUN php artisan storage:link \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+EXPOSE 8080
+
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
