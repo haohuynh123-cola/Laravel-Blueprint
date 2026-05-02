@@ -1,10 +1,10 @@
 {
-    "name": "laravel-blueprint/laravel-blueprint",
+    "name": "haohuynh123-cola/laravel-blueprint",
     "description": "Scaffold production-ready Laravel projects with your choice of starter kit, database, queue, and extras — like go-blueprint, but for Laravel.",
     "type": "library",
     "license": "MIT",
     "keywords": ["laravel", "scaffold", "cli", "blueprint", "generator", "starter"],
-    "homepage": "https://github.com/laravel-blueprint/laravel-blueprint",
+    "homepage": "https://github.com/haohuynh123-cola/Laravel-Blueprint",
     "require": {
         "php": "^8.2",
         "symfony/console": "^7.0",

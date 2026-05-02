@@ -25,7 +25,7 @@ What's planned (prompts already collect these — generators land next):
 ## Install
 
 ```bash
-composer global require laravel-blueprint/laravel-blueprint
+composer global require haohuynh123-cola/laravel-blueprint
 ```
 
 Make sure `~/.composer/vendor/bin` (or `~/.config/composer/vendor/bin`) is on your `PATH`.
