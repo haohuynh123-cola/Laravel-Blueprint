@@ -29,6 +29,25 @@ npx laravel-blueprint new my-app
 
 Spawns the phar via Node — handy if you're already in a JS project. Requires PHP 8.2+ on your `PATH`.
 
+### Homebrew — macOS / Linux
+
+```bash
+brew tap haohuynh123-cola/laravel-blueprint
+brew install laravel-blueprint
+blueprint new
+```
+
+Pulls PHP if missing, installs the matching phar, puts `blueprint` on your `PATH`. Update with `brew upgrade laravel-blueprint`.
+
+### Docker — zero PHP install
+
+```bash
+docker run --rm -it -v "$PWD:/work" -w /work \
+  ghcr.io/haohuynh123-cola/laravel-blueprint new my-app
+```
+
+Image bundles PHP 8.3 + Composer + Node + git. Multi-arch (amd64 + arm64). Tag `latest` or pin `:0.5.0`. The bind-mount drops the generated project in your current directory.
+
 ### Composer — the canonical PHP way
 
 ```bash
@@ -277,9 +296,9 @@ One we deliberately changed: `go-blueprint` keeps templates as Go string literal
 - ✅ **v0.0.1** — base install + database + git
 - ✅ **v0.2.0** — starter kit + extras + Docker + CI generators
 - ✅ **v0.3.0** — `blueprint add` for existing projects
-- ✅ **v0.4.0** — Phar release + `curl | bash` install script + npm wrapper for `npx` *(current)*
-- ✅ **v0.5** — live configurator site
-- 🔜 **v0.6** — Homebrew tap + Docker image (zero-PHP install)
+- ✅ **v0.4.0** — Phar release + `curl | bash` install script + npm wrapper for `npx`
+- ✅ **v0.5.0** — Homebrew tap + Docker image (zero-PHP install) *(current)*
+- ✅ **Configurator site** — live at [haohuynh123-cola.github.io/Laravel-Blueprint](https://haohuynh123-cola.github.io/Laravel-Blueprint/)
 
 ---
 

@@ -1,0 +1,12 @@
+.git
+.github
+node_modules
+vendor
+site
+npm/node_modules
+homebrew
+tests
+*.tsbuildinfo
+.DS_Store
+.idea
+.vscode
