@@ -21,6 +21,8 @@ final readonly class BlueprintConfig
         public StarterKit $starterKit,
         public FrontendStack $frontendStack,
         public Database $database,
+        public Cache $cache,
+        public Queue $queue,
         public TestRunner $testRunner,
         public array $extras,
         public DockerMode $dockerMode,

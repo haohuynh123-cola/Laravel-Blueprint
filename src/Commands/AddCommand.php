@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace LaravelBlueprint\Commands;
 
 use LaravelBlueprint\Config\BlueprintConfig;
+use LaravelBlueprint\Config\Cache;
 use LaravelBlueprint\Config\CiPreset;
 use LaravelBlueprint\Config\Database;
 use LaravelBlueprint\Config\DockerMode;
 use LaravelBlueprint\Config\Extra;
 use LaravelBlueprint\Config\FrontendStack;
 use LaravelBlueprint\Config\GitMode;
+use LaravelBlueprint\Config\Queue;
 use LaravelBlueprint\Config\StarterKit;
 use LaravelBlueprint\Config\TestRunner;
 use LaravelBlueprint\Generators\CiGenerator;
 use LaravelBlueprint\Generators\DockerGenerator;
 use LaravelBlueprint\Generators\ExtrasGenerator;
+use LaravelBlueprint\Generators\ServicesConfigurator;
 use LaravelBlueprint\Support\ProcessRunner;
 use LaravelBlueprint\Support\ProjectDetector;
 use RuntimeException;
@@ -47,6 +50,8 @@ final class AddCommand extends Command
     {
         $this
             ->addOption('extra', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Repeatable extras to install')
+            ->addOption('cache', null, InputOption::VALUE_REQUIRED, 'Cache driver: database|file|redis|memcached')
+            ->addOption('queue', null, InputOption::VALUE_REQUIRED, 'Queue driver: sync|database|redis|beanstalkd|sqs|rabbitmq')
             ->addOption('docker', null, InputOption::VALUE_REQUIRED, 'Docker mode: none|sail|production|both')
             ->addOption('ci', null, InputOption::VALUE_REQUIRED, 'CI preset: none|github-actions')
             ->addOption('database', null, InputOption::VALUE_REQUIRED, 'Database (used by Sail install)')
@@ -94,6 +99,8 @@ final class AddCommand extends Command
     {
         $extras = $this->parseExtras($input->getOption('extra'));
         $database = $this->parseEnum(Database::class, $input->getOption('database'), Database::SQLite, '--database');
+        $cache = $this->parseEnum(Cache::class, $input->getOption('cache'), Cache::Database, '--cache');
+        $queue = $this->parseEnum(Queue::class, $input->getOption('queue'), Queue::Database, '--queue');
         $docker = $this->parseEnum(DockerMode::class, $input->getOption('docker'), DockerMode::None, '--docker');
         $ci = $this->parseEnum(CiPreset::class, $input->getOption('ci'), CiPreset::None, '--ci');
 
@@ -104,6 +111,8 @@ final class AddCommand extends Command
             starterKit: StarterKit::None,
             frontendStack: FrontendStack::None,
             database: $database,
+            cache: $cache,
+            queue: $queue,
             testRunner: TestRunner::Pest,
             extras: $extras,
             dockerMode: $docker,
@@ -115,6 +124,8 @@ final class AddCommand extends Command
     private function isNoop(BlueprintConfig $config): bool
     {
         return $config->extras === []
+            && $config->cache === Cache::Database
+            && $config->queue === Queue::Database
             && $config->dockerMode === DockerMode::None
             && $config->ciPreset === CiPreset::None;
     }
@@ -151,6 +162,11 @@ final class AddCommand extends Command
     private function runGenerators(BlueprintConfig $config, OutputInterface $output): void
     {
         $runner = new ProcessRunner($output);
+
+        if ($config->cache !== Cache::Database || $config->queue !== Queue::Database) {
+            info('Configuring services (cache + queue)…');
+            (new ServicesConfigurator($runner))->generate($config);
+        }
 
         if ($config->extras !== []) {
             info('Installing extras…');

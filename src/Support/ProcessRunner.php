@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
  * Thin wrapper around symfony/process so generators get one consistent
  * place for streaming output, timeouts, and failure handling.
  */
-final class ProcessRunner
+class ProcessRunner
 {
     public function __construct(private readonly OutputInterface $output) {}
 

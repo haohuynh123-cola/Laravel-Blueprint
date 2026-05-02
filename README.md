@@ -72,6 +72,8 @@ A Laravel project that's already wired up the way you wanted — no manual `comp
 - **Starter kits** — Breeze · Jetstream · Filament (each installed and configured for your chosen frontend)
 - **Frontend stacks** — Blade · Livewire · Inertia + Vue · Inertia + React · API only
 - **Database** — MySQL · PostgreSQL · SQLite · MariaDB (`.env` rewritten, SQLite file created)
+- **Cache** — Database · File · Redis · Memcached
+- **Queue** — Sync · Database · Redis · Beanstalkd · SQS · RabbitMQ (Redis/RabbitMQ auto-install their driver packages)
 - **Extras** — Horizon · Telescope · Pulse · Octane · Scout · Sanctum · Pint · Larastan · Dusk · Sail
 - **Docker** — production Dockerfile + nginx + php.ini, or Sail dev environment, or both
 - **CI** — GitHub Actions workflow (tests + Pint + PHPStan)
@@ -151,6 +153,8 @@ blueprint new my-app \
 | `--kit` | `none`, `breeze`, `jetstream`, `filament` |
 | `--stack` | `blade`, `livewire`, `inertia-vue`, `inertia-react`, `api`, `none` |
 | `--database` | `mysql`, `pgsql`, `sqlite`, `mariadb` |
+| `--cache` | `database`, `file`, `redis`, `memcached` |
+| `--queue` | `sync`, `database`, `redis`, `beanstalkd`, `sqs`, `rabbitmq` |
 | `--tests` | `pest`, `phpunit` |
 | `--extra` | `horizon`, `telescope`, `pulse`, `octane`, `scout`, `sanctum`, `pint`, `larastan`, `dusk`, `sail` (repeatable) |
 | `--docker` | `none`, `sail`, `production`, `both` |
@@ -180,6 +184,8 @@ blueprint add --extra=pint --extra=larastan --ci=github-actions   # combine
 | Flag | Values |
 |---|---|
 | `--extra` | Same as `new` (repeatable) |
+| `--cache` | Same as `new` |
+| `--queue` | Same as `new` |
 | `--docker` | `none`, `sail`, `production`, `both` |
 | `--ci` | `none`, `github-actions` |
 | `--database` | Used by Sail install only |
@@ -204,6 +210,16 @@ blueprint new api \
   --database=pgsql --tests=pest \
   --extra=sanctum --extra=pint --extra=larastan \
   --ci=github-actions --git=commit --yes
+```
+
+### High-throughput app with Redis cache + RabbitMQ queue
+
+```bash
+blueprint new orders \
+  --kit=breeze --stack=inertia-vue \
+  --database=pgsql --cache=redis --queue=rabbitmq \
+  --tests=pest --extra=horizon --extra=pulse \
+  --docker=both --ci=github-actions --git=commit --yes
 ```
 
 ### Full-stack Inertia + Vue + production Docker
@@ -297,7 +313,8 @@ One we deliberately changed: `go-blueprint` keeps templates as Go string literal
 - ✅ **v0.2.0** — starter kit + extras + Docker + CI generators
 - ✅ **v0.3.0** — `blueprint add` for existing projects
 - ✅ **v0.4.0** — Phar release + `curl | bash` install script + npm wrapper for `npx`
-- ✅ **v0.5.0** — Homebrew tap + Docker image (zero-PHP install) *(current)*
+- ✅ **v0.5.0** — Homebrew tap + Docker image (zero-PHP install)
+- ✅ **v0.6.0** — Cache + Queue drivers (Redis, RabbitMQ, Memcached, etc.) *(current)*
 - ✅ **Configurator site** — live at [haohuynh123-cola.github.io/Laravel-Blueprint](https://haohuynh123-cola.github.io/Laravel-Blueprint/)
 
 ---

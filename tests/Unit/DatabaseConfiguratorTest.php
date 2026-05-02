@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 use LaravelBlueprint\Config\BlueprintConfig;
+use LaravelBlueprint\Config\Cache;
 use LaravelBlueprint\Config\CiPreset;
 use LaravelBlueprint\Config\Database;
 use LaravelBlueprint\Config\DockerMode;
 use LaravelBlueprint\Config\FrontendStack;
 use LaravelBlueprint\Config\GitMode;
+use LaravelBlueprint\Config\Queue;
 use LaravelBlueprint\Config\StarterKit;
 use LaravelBlueprint\Config\TestRunner;
 use LaravelBlueprint\Generators\DatabaseConfigurator;
@@ -48,6 +50,8 @@ function makeConfig(string $workspace, Database $db): BlueprintConfig
         starterKit: StarterKit::None,
         frontendStack: FrontendStack::None,
         database: $db,
+        cache: Cache::Database,
+        queue: Queue::Database,
         testRunner: TestRunner::Pest,
         extras: [],
         dockerMode: DockerMode::None,

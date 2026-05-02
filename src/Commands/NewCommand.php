@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace LaravelBlueprint\Commands;
 
 use LaravelBlueprint\Config\BlueprintConfig;
+use LaravelBlueprint\Config\Cache;
 use LaravelBlueprint\Config\CiPreset;
 use LaravelBlueprint\Config\Database;
 use LaravelBlueprint\Config\DockerMode;
 use LaravelBlueprint\Config\Extra;
 use LaravelBlueprint\Config\FrontendStack;
 use LaravelBlueprint\Config\GitMode;
+use LaravelBlueprint\Config\Queue;
 use LaravelBlueprint\Config\StarterKit;
 use LaravelBlueprint\Config\TestRunner;
 use LaravelBlueprint\Generators\BaseInstaller;
@@ -19,6 +21,7 @@ use LaravelBlueprint\Generators\DatabaseConfigurator;
 use LaravelBlueprint\Generators\DockerGenerator;
 use LaravelBlueprint\Generators\ExtrasGenerator;
 use LaravelBlueprint\Generators\GitInitializer;
+use LaravelBlueprint\Generators\ServicesConfigurator;
 use LaravelBlueprint\Generators\StarterKitGenerator;
 use LaravelBlueprint\Support\ProcessRunner;
 use RuntimeException;
@@ -46,6 +49,8 @@ final class NewCommand extends Command
             ->addOption('kit', null, InputOption::VALUE_REQUIRED, 'Starter kit: ' . $this->enumValues(StarterKit::cases()))
             ->addOption('stack', null, InputOption::VALUE_REQUIRED, 'Frontend stack: ' . $this->enumValues(FrontendStack::cases()))
             ->addOption('database', null, InputOption::VALUE_REQUIRED, 'Database: ' . $this->enumValues(Database::cases()))
+            ->addOption('cache', null, InputOption::VALUE_REQUIRED, 'Cache driver: ' . $this->enumValues(Cache::cases()))
+            ->addOption('queue', null, InputOption::VALUE_REQUIRED, 'Queue driver: ' . $this->enumValues(Queue::cases()))
             ->addOption('tests', null, InputOption::VALUE_REQUIRED, 'Test runner: ' . $this->enumValues(TestRunner::cases()))
             ->addOption('extra', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Repeatable extras')
             ->addOption('docker', null, InputOption::VALUE_REQUIRED, 'Docker mode: ' . $this->enumValues(DockerMode::cases()))
@@ -118,6 +123,22 @@ final class NewCommand extends Command
             Database::SQLite,
         );
 
+        $cache = $this->resolveEnum(
+            Cache::class,
+            $input->getOption('cache'),
+            $nonInteractive,
+            fn() => select('Cache driver', $this->labelsFor(Cache::cases()), default: Cache::Database->value),
+            Cache::Database,
+        );
+
+        $queue = $this->resolveEnum(
+            Queue::class,
+            $input->getOption('queue'),
+            $nonInteractive,
+            fn() => select('Queue driver', $this->labelsFor(Queue::cases()), default: Queue::Database->value),
+            Queue::Database,
+        );
+
         $tests = $this->resolveEnum(
             TestRunner::class,
             $input->getOption('tests'),
@@ -158,6 +179,8 @@ final class NewCommand extends Command
             starterKit: $kit,
             frontendStack: $stack,
             database: $database,
+            cache: $cache,
+            queue: $queue,
             testRunner: $tests,
             extras: $extras,
             dockerMode: $docker,
@@ -175,6 +198,9 @@ final class NewCommand extends Command
 
         info('Configuring database…');
         (new DatabaseConfigurator())->generate($config);
+
+        info('Configuring services (cache + queue)…');
+        (new ServicesConfigurator($runner))->generate($config);
 
         if ($config->starterKit !== StarterKit::None) {
             info("Installing starter kit ({$config->starterKit->value})…");

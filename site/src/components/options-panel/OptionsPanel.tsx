@@ -1,10 +1,12 @@
 import {
+  CACHES,
   CI_PRESETS,
   DATABASES,
   DOCKER_MODES,
   EXTRAS,
   FRONTEND_STACKS,
   GIT_MODES,
+  QUEUES,
   STARTER_KITS,
   TEST_RUNNERS,
   allowedFrontendStacks,
@@ -78,6 +80,20 @@ export function OptionsPanel({ config, onChange }: OptionsPanelProps) {
           options={DATABASES}
           value={config.database}
           onChange={(v) => update('database', v)}
+        />
+
+        <ChoiceGroup
+          label="Cache driver"
+          options={CACHES}
+          value={config.cache}
+          onChange={(v) => update('cache', v)}
+        />
+
+        <ChoiceGroup
+          label="Queue driver"
+          options={QUEUES}
+          value={config.queue}
+          onChange={(v) => update('queue', v)}
         />
 
         <ChoiceGroup

@@ -80,6 +80,9 @@ function configDir(config: BlueprintConfig): TreeNode {
     const filename = configFileForExtra(e);
     if (filename) extraConfigs.push(file(filename, 'extra'));
   }
+  if (config.queue === 'rabbitmq') {
+    extraConfigs.push(file('queue.php (rabbitmq driver registered)', 'db'));
+  }
   return dir(
     'config',
     [...base.map((f) => file(f)), ...extraConfigs],

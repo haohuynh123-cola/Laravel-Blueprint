@@ -1,4 +1,5 @@
 import {
+  CACHES,
   CI_PRESETS,
   DATABASES,
   DEFAULT_CONFIG,
@@ -6,6 +7,7 @@ import {
   EXTRAS,
   FRONTEND_STACKS,
   GIT_MODES,
+  QUEUES,
   STARTER_KITS,
   TEST_RUNNERS,
   type BlueprintConfig,
@@ -28,6 +30,8 @@ const SHORT_KEYS = {
   starterKit: 'kit',
   frontendStack: 'stack',
   database: 'db',
+  cache: 'cache',
+  queue: 'queue',
   testRunner: 'tests',
   extras: 'extra',
   dockerMode: 'docker',
@@ -49,6 +53,12 @@ export function encodeConfig(config: BlueprintConfig): string {
   }
   if (config.database !== DEFAULT_CONFIG.database) {
     params.set(SHORT_KEYS.database, config.database);
+  }
+  if (config.cache !== DEFAULT_CONFIG.cache) {
+    params.set(SHORT_KEYS.cache, config.cache);
+  }
+  if (config.queue !== DEFAULT_CONFIG.queue) {
+    params.set(SHORT_KEYS.queue, config.queue);
   }
   if (config.testRunner !== DEFAULT_CONFIG.testRunner) {
     params.set(SHORT_KEYS.testRunner, config.testRunner);
@@ -84,6 +94,8 @@ export function decodeConfig(search: string): BlueprintConfig {
       DEFAULT_CONFIG.frontendStack,
     ),
     database: pickEnum(params.get(SHORT_KEYS.database), DATABASES, DEFAULT_CONFIG.database),
+    cache: pickEnum(params.get(SHORT_KEYS.cache), CACHES, DEFAULT_CONFIG.cache),
+    queue: pickEnum(params.get(SHORT_KEYS.queue), QUEUES, DEFAULT_CONFIG.queue),
     testRunner: pickEnum(params.get(SHORT_KEYS.testRunner), TEST_RUNNERS, DEFAULT_CONFIG.testRunner),
     extras: parseExtras(params.get(SHORT_KEYS.extras)),
     dockerMode: pickEnum(params.get(SHORT_KEYS.dockerMode), DOCKER_MODES, DEFAULT_CONFIG.dockerMode),

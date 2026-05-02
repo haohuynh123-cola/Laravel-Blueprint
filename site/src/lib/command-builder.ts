@@ -25,6 +25,8 @@ export function buildCommand(config: BlueprintConfig): RenderedCommand {
     flags.push(['stack', config.frontendStack]);
   }
   if (config.database !== DEFAULT_CONFIG.database) flags.push(['database', config.database]);
+  if (config.cache !== DEFAULT_CONFIG.cache) flags.push(['cache', config.cache]);
+  if (config.queue !== DEFAULT_CONFIG.queue) flags.push(['queue', config.queue]);
   if (config.testRunner !== DEFAULT_CONFIG.testRunner) flags.push(['tests', config.testRunner]);
 
   for (const extra of config.extras) flags.push(['extra', extra]);

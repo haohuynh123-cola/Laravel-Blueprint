@@ -56,9 +56,31 @@ final readonly class DockerGenerator implements Generator
             cwd: $config->targetPath,
         );
 
+        $services = $this->sailServices($config);
+
         $this->runner->run(
-            ['php', 'artisan', 'sail:install', '--with='.$config->database->value, '--no-interaction'],
+            ['php', 'artisan', 'sail:install', '--with='.implode(',', $services), '--no-interaction'],
             cwd: $config->targetPath,
         );
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function sailServices(BlueprintConfig $config): array
+    {
+        // sail:install accepts: mysql, pgsql, mariadb, redis, memcached,
+        // meilisearch, typesense, minio, mailpit, selenium, soketi.
+        $services = [$config->database->value];
+
+        if ($config->cache->value === 'redis' || $config->queue->value === 'redis') {
+            $services[] = 'redis';
+        }
+        if ($config->cache->value === 'memcached') {
+            $services[] = 'memcached';
+        }
+
+        // De-duplicate while preserving order.
+        return array_values(array_unique($services));
     }
 }

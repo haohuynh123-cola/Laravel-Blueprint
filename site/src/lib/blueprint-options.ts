@@ -12,6 +12,8 @@ export type FrontendStack =
   | 'api'
   | 'none';
 export type Database = 'mysql' | 'pgsql' | 'sqlite' | 'mariadb';
+export type Cache = 'database' | 'file' | 'redis' | 'memcached';
+export type Queue = 'sync' | 'database' | 'redis' | 'beanstalkd' | 'sqs' | 'rabbitmq';
 export type TestRunner = 'pest' | 'phpunit';
 export type Extra =
   | 'horizon'
@@ -33,6 +35,8 @@ export interface BlueprintConfig {
   starterKit: StarterKit;
   frontendStack: FrontendStack;
   database: Database;
+  cache: Cache;
+  queue: Queue;
   testRunner: TestRunner;
   extras: ReadonlyArray<Extra>;
   dockerMode: DockerMode;
@@ -67,6 +71,22 @@ export const DATABASES: ReadonlyArray<Choice<Database>> = [
   { value: 'mysql', label: 'MySQL' },
   { value: 'pgsql', label: 'PostgreSQL' },
   { value: 'mariadb', label: 'MariaDB' },
+];
+
+export const CACHES: ReadonlyArray<Choice<Cache>> = [
+  { value: 'database', label: 'Database', description: 'Zero setup' },
+  { value: 'file', label: 'File' },
+  { value: 'redis', label: 'Redis', description: 'Installs predis' },
+  { value: 'memcached', label: 'Memcached', description: 'Requires ext-memcached' },
+];
+
+export const QUEUES: ReadonlyArray<Choice<Queue>> = [
+  { value: 'sync', label: 'Sync', description: 'No queue' },
+  { value: 'database', label: 'Database', description: 'Zero infra' },
+  { value: 'redis', label: 'Redis', description: 'Installs predis' },
+  { value: 'beanstalkd', label: 'Beanstalkd' },
+  { value: 'sqs', label: 'AWS SQS' },
+  { value: 'rabbitmq', label: 'RabbitMQ', description: 'Installs the queue driver' },
 ];
 
 export const TEST_RUNNERS: ReadonlyArray<Choice<TestRunner>> = [
@@ -110,6 +130,8 @@ export const DEFAULT_CONFIG: BlueprintConfig = {
   starterKit: 'breeze',
   frontendStack: 'inertia-vue',
   database: 'pgsql',
+  cache: 'database',
+  queue: 'database',
   testRunner: 'pest',
   extras: ['pint', 'larastan'],
   dockerMode: 'production',
