@@ -122,6 +122,33 @@ blueprint new my-app \
 
 ---
 
+## Add layers to an existing Laravel project
+
+Already have a Laravel app and want to bolt on Docker, GitHub Actions, or an extra? Use `blueprint add`:
+
+```bash
+cd existing-laravel-app
+
+blueprint add --extra=horizon --extra=pulse              # add packages
+blueprint add --docker=production                         # write Dockerfile + nginx.conf + php.ini
+blueprint add --ci=github-actions                         # write .github/workflows/*.yml
+blueprint add --extra=pint --extra=larastan --ci=github-actions   # combine
+```
+
+`blueprint add` refuses to overwrite existing files (Dockerfile, workflows). Pass `--force` to replace them. It also refuses to run in directories that aren't Laravel projects (no `artisan` + no `laravel/framework` in `composer.json`).
+
+### Add flags
+
+| Flag | Values |
+|---|---|
+| `--extra` | Same as `new` (repeatable) |
+| `--docker` | `none`, `sail`, `production`, `both` |
+| `--ci` | `none`, `github-actions` |
+| `--database` | Used by Sail install only |
+| `--force` / `-f` | Overwrite existing Docker / CI files |
+
+---
+
 ## Recipes
 
 ### Smallest possible project (~20 sec)
@@ -229,10 +256,10 @@ One we deliberately changed: `go-blueprint` keeps templates as Go string literal
 ## Roadmap
 
 - ✅ **v0.0.1** — base install + database + git
-- ✅ **v0.2.0** — starter kit + extras + Docker + CI generators *(current)*
+- ✅ **v0.2.0** — starter kit + extras + Docker + CI generators
+- ✅ **v0.3.0** — `blueprint add` for existing projects *(current)*
 - ✅ **v0.5** — live configurator site
-- 🔜 **v0.3** — `blueprint upgrade` for existing projects (apply a single layer to a brownfield repo)
-- 🔜 **v0.4** — Phar release + Homebrew tap + `curl | bash` install script + npm wrapper for `npx`
+- 🔜 **v0.4** — Phar release + `curl | bash` install script + npm wrapper for `npx`
 
 ---
 
