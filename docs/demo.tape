@@ -15,10 +15,10 @@ Output docs/demo.gif
 # theme.
 Set Theme "Catppuccin Mocha"
 Set FontFamily "JetBrains Mono"
-Set FontSize 22
+Set FontSize 18
 Set Width 1280
 Set Height 820
-Set Padding 36
+Set Padding 16
 Set Margin 0
 Set TypingSpeed 40ms
 Set Framerate 30
